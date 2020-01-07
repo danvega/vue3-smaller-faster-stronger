@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Reactivity Caveat #1</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    <h1>{{ book.name }} </h1>
+    <p>Qty: {{ book.qty }}</p>
+    <p>Price: {{ book.price }}</p>
+    <p>Total: {{ total }}</p>
+  </div>
+
+<script>
+  const vm = new Vue({
+    el: "#app",
+    data() {
+      return {
+        book: {
+          name: 'My Awesome Book',
+          qty: 1
+        }
+      }
+    },
+    computed: {
+      total() {
+        return this.book.qty * this.book.price;
+      }
+    },
+    created() {
+      Vue.set(this.book, "price", 12.00);
+    }
+  });
+</script>
+
+</body>
+</html>

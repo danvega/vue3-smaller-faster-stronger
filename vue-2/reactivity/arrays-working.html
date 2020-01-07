@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Reactivity Caveat #2</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    <input type="text" v-model="newBook" />
+    <button @click="addBook()">Add Book</button>
+    <ul>
+      <li v-for="book in books">{{ book }}</li>
+    </ul>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          newBook: '',
+          books: [
+            'Atomic Habits',
+            'Superfans',
+            'The Unicorn Project'
+          ]
+        }
+      },
+      methods: {
+        addBook() {
+          this.books.push(this.newBook);
+          this.newBook = '';
+        }
+      }
+    });
+  </script>
+
+
+</body>
+</html>

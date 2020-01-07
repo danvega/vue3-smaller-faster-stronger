@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Brewery Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    <ul>
+      <li v-for="brewery in breweriesSorted" :key="brewery.id">
+        {{ brewery.name }}
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    const API_URL = "https://api.openbrewerydb.org/breweries?by_city=cleveland"
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          searchCity: 'Cleveland',
+          breweries: [],
+          orderBy: 'name'
+        }
+      },
+      methods: {
+        fetchBreweries() {
+          fetch(API_URL)
+            .then(response => {
+              return response.json()
+            })
+            .then(data => {
+              this.breweries = data;
+            })
+        },
+        setOrderBy(key) {
+          this.orderBy = key
+        }
+      },
+      computed: {
+        breweriesSorted() {
+          if (this.orderBy != '') {
+            this.breweries = _.sortBy(this.breweries, this.orderBy);
+          }
+          return this.breweries
+        }
+      },
+      created() {
+        this.fetchBreweries()
+      }
+    })
+  </script>
+
+</body>
+</html>
